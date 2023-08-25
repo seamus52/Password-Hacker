@@ -1,0 +1,42 @@
+########################################################
+# HYPERSKILL SECTION
+# ADAPT FOR EACH PROJECT
+"Password Hacker (Python)"
+# Do not ignore project dir with partially useful content
+# Further filtering will eliminate the unneccessary files
+# ADAPT FOR EACH PROJECT
+!"Password Hacker (Python)/*"
+task.html
+
+# Ignore non code-related directories
+Topics/
+log/
+
+# Ignore non-project-related descriptor files
+#*.yaml
+task-info.yaml
+task-remote-info.yaml
+course-info.yaml
+course-remote-info.yaml
+lesson-info.yaml
+########################################################
+
+# Ignore backup files
+*.bkp
+
+# Ignore OS specific files
+.DS_Store
+
+# Ignore .gitignore
+#.gitignore
+
+# Log file
+*.log
+*.log.lck
+
+# Database Files #
+*.db
+*.s3db
+
+# IDE metadata
+.idea
